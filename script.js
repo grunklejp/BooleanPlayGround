@@ -6,5 +6,5 @@ ctx.fillRect(0,0, 50, 50);
 setInterval(update, 50);
 
 function update(){
-    
+    console.log("jp");
 }
