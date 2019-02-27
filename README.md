@@ -1,6 +1,8 @@
 # BooleanPlayGround
 421 Project
 
+Git Guide:
+https://rogerdudler.github.io/git-guide/
 
 View Live Project Here!
 
