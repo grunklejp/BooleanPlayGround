@@ -3,7 +3,7 @@
 win = new setUp();
 win.render();
 
-var a = new And(0,0, win);
+var a = new And(2,2, win);
 a.render();
 
 function setUp(){
@@ -25,7 +25,7 @@ function And(x, y, win){
     this.y_pos = y;
     this.w = win.ctx.canvas.width / 30;
     this.h = win.ctx.canvas.height/ 10;
-    this.color = "red";
+    this.color = "green";
     
     
     this.render = function(){
@@ -42,3 +42,56 @@ function And(x, y, win){
         //draw tiny circle
     }
 }
+
+function Or(x, y, win){
+    this.x_pos = x;
+    this.y_pos = y;
+    this.w = win.ctx.canvas.width / 30;
+    this.h = win.ctx.canvas.height/ 10;
+    this.color = "blue";
+    
+    
+    this.render = function(){
+        //draw square        
+        win.ctx.fillStyle = this.color;
+        win.ctx.fillRect(this.x_pos, this.y_pos, this.w, this.h);
+        //draw triangle
+        win.ctx.strokeStyle = this.color;
+
+        win.ctx.moveTo(this.x_pos+this.w, this.y_pos);
+        win.ctx.lineTo((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2);
+        win.ctx.lineTo(this.x_pos+this.w, this.y_pos+this.h);
+
+        win.ctx.stroke();
+        win.ctx.fill();
+        
+        //draw tiny circle
+    }
+}
+
+function Not(x, y, win){
+    this.x_pos = x;
+    this.y_pos = y;
+    this.w = win.ctx.canvas.width / 50;
+    this.h = win.ctx.canvas.height/ 10;
+    this.color = "red";
+    
+    
+    this.render = function(){
+        //draw square        
+        
+        //draw triangle
+        win.ctx.strokeStyle = this.color;
+        win.ctx.fillStyle = this.color;
+        win.ctx.moveTo(this.x_pos, this.y_pos);
+        win.ctx.lineTo((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2);
+        win.ctx.lineTo(this.x_pos, this.y_pos+this.h);
+        win.ctx.lineTo(this.x_pos, this.y_pos);
+
+        win.ctx.stroke();
+        win.ctx.fill();
+        
+        //draw tiny circle
+    }
+}
+
