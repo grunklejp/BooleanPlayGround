@@ -1,10 +1,10 @@
 can = document.getElementById("canvas");
 ctx = can.getContext("2d");
-ctx.fillStyle = "blue";
-ctx.fillRect(0,0, 50, 50);
-var jp = "Loser"
-setInterval(update, 50);
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-function update(){
-    console.log(jp);
-}
+ctx.fillStyle = "blue";
+ctx.fillRect(0,0, canvas.width, canvas.height);
+
+
+
