@@ -2,29 +2,28 @@
 var gates = []
 var gate_index = -1;
 var mousedown = false;
-
 var win = new setUp();
-win.render();
-
 
 var orClick = document.getElementById("or");
 var andClick = document.getElementById("and");
 var notClick = document.getElementById("not");
+win.render();
+
 
 orClick.onclick = function(){
-    var newOr = new Or(0, 0, win);
+    var newOr = new Or(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win);
     newOr.render();
     gates.push(newOr);
     
 } 
 andClick.onclick = function(){
-    var newAnd = new And(0, 0, win);
+    var newAnd = new And(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win);
     newAnd.render();
     gates.push(newAnd);
     
 }
 notClick.onclick = function(){
-    var newNot = new Not(0, 0, win);
+    var newNot = new Not(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win);
     newNot.render();
     gates.push(newNot);
     
@@ -92,21 +91,31 @@ function And(x, y, win){
     this.h = win.ctx.canvas.height/ 10;
     this.color = "green";
     
-    
-    
     this.render = function(){
         //draw square        
         win.ctx.fillStyle = this.color;
         win.ctx.fillRect(this.x_pos, this.y_pos, this.w, this.h);
         //draw semi circle
-        win.ctx.strokeStyle = this.color;
         win.ctx.beginPath();
-
         win.ctx.arc(this.x_pos+this.w, this.y_pos+this.h/2, this.h/2, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
         
-        //draw tiny circle
+        //draw input circles
+        win.ctx.fillStyle = "gray";
+        win.ctx.beginPath();
+        win.ctx.arc(this.x_pos, this.y_pos+this.h/4, this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
+        win.ctx.beginPath();
+        win.ctx.arc(this.x_pos, this.y_pos+(this.h/4 * 3), this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
+        //draw output circle
+        win.ctx.beginPath();
+        win.ctx.arc(this.x_pos+this.w+this.h/2, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
         
     }
     this.update = function(cursorX, cursorY){
@@ -128,7 +137,6 @@ function Or(x, y, win){
     this.h = win.ctx.canvas.height/ 10;
     this.color = "blue";
     
-    
     this.render = function(){
         //draw square        
         win.ctx.fillStyle = this.color;
@@ -142,9 +150,22 @@ function Or(x, y, win){
         win.ctx.lineTo(this.x_pos+this.w, this.y_pos);
         win.ctx.closePath();
         win.ctx.fill();
-        
-        
-        //draw tiny circle
+        //draw input circles
+        win.ctx.fillStyle = "gray";
+        win.ctx.beginPath();
+        win.ctx.arc(this.x_pos, this.y_pos+this.h/4, this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
+        win.ctx.beginPath();
+        win.ctx.arc(this.x_pos, this.y_pos+(this.h/4 * 3), this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
+        //draw output circle
+        win.ctx.beginPath();
+        win.ctx.arc((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
+
     }
     this.update = function(x,y){
         this.x_pos = x;
@@ -162,11 +183,8 @@ function Not(x, y, win){
     this.w = win.ctx.canvas.width / 50;
     this.h = win.ctx.canvas.height/ 10;
     this.color = "red";
-    
-    
+       
     this.render = function(){
-        //draw square        
-        
         //draw triangle
         win.ctx.strokeStyle = this.color;
         win.ctx.fillStyle = this.color;
@@ -178,9 +196,20 @@ function Not(x, y, win){
         win.ctx.closePath();
         win.ctx.fill();
         
-        
-        //draw tiny circle
+        //draw input circle
+        win.ctx.fillStyle = "gray";
+        win.ctx.beginPath();
+        win.ctx.arc(this.x_pos, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
+
+        //draw output circle
+        win.ctx.beginPath();
+        win.ctx.arc((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
+        win.ctx.closePath();
+        win.ctx.fill();
     }
+
     this.update = function(x,y){
         this.x_pos = x;
         this.y_pos = y;
