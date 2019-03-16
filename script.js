@@ -3,6 +3,7 @@ gates = []
 
 win = new setUp();
 win.render();
+var mousedown = false;
 
 
 var orClick = document.getElementById("or");
@@ -28,6 +29,34 @@ notClick.onclick = function(){
     
 } 
 
+function handleMouseDown(e){
+    let cursorX = e.pageX;
+    let cursorY = e.pageY;
+    console.log(cursorX);
+    console.log(cursorY);
+    //find matching gate.
+    //checkWhichGate(cursorX, cursorY);   ==> returns gate object
+    //
+    
+
+    //
+    mousedown = true;
+}
+
+function handleMouseUp(e){
+
+    mousedown = false;
+}
+
+function handleMouseMove(e){
+    let cursorX = e.pageX;
+    let cursorY = e.pageY;
+    if(mousedown){
+        console.log("" +cursorX+ ", " +cursorY);
+        //render 
+    }
+}
+
 
 
 
@@ -36,6 +65,9 @@ function setUp(){
     this.ctx = this.can.getContext('2d');
     this.ctx.canvas.width = window.innerWidth;
     this.ctx.canvas.height = window.innerHeight;
+    this.ctx.canvas.addEventListener("mousedown", handleMouseDown);
+    this.ctx.canvas.addEventListener("mouseup", handleMouseUp);
+    this.ctx.canvas.addEventListener("mousemove", handleMouseMove);
 
     this.render = function(){
         this.ctx.fillStyle = "antiquewhite";
@@ -50,6 +82,7 @@ function And(x, y, win){
     this.w = win.ctx.canvas.width / 30;
     this.h = win.ctx.canvas.height/ 10;
     this.color = "green";
+    
     
     
     this.render = function(){
@@ -67,6 +100,8 @@ function And(x, y, win){
         //draw tiny circle
         
     }
+
+
 }
 
 function Or(x, y, win){
