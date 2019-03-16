@@ -1,9 +1,10 @@
 
-gates = []
-
-win = new setUp();
-win.render();
+var gates = []
+var gate_index = -1;
 var mousedown = false;
+
+var win = new setUp();
+win.render();
 
 
 var orClick = document.getElementById("or");
@@ -17,13 +18,13 @@ orClick.onclick = function(){
     
 } 
 andClick.onclick = function(){
-    var newAnd = new And(50, 50, win);
+    var newAnd = new And(0, 0, win);
     newAnd.render();
     gates.push(newAnd);
     
 }
 notClick.onclick = function(){
-    var newNot = new Not(500, 500, win);
+    var newNot = new Not(0, 0, win);
     newNot.render();
     gates.push(newNot);
     
@@ -32,31 +33,39 @@ notClick.onclick = function(){
 function handleMouseDown(e){
     let cursorX = e.pageX;
     let cursorY = e.pageY;
-    console.log(cursorX);
-    console.log(cursorY);
     //find matching gate.
-    //checkWhichGate(cursorX, cursorY);   ==> returns gate object
-    //
-    
-
-    //
+    gate_index = checkWhichGate(cursorX, cursorY);  // ==> returns gate index
     mousedown = true;
 }
 
 function handleMouseUp(e){
-
     mousedown = false;
+    gate_index = -1;
 }
 
 function handleMouseMove(e){
     let cursorX = e.pageX;
     let cursorY = e.pageY;
-    if(mousedown){
-        console.log("" +cursorX+ ", " +cursorY);
-        //render 
+    if(mousedown && gate_index != -1){
+        gates[gate_index].update(cursorX, cursorY);
     }
 }
 
+function checkWhichGate(x, y){
+    console.log(x, y);
+    y = y-20;
+    console.log(x, y);
+    for(let i = gates.length-1; i >= 0; i--){
+
+        
+        if(x >= gates[i].x_pos && x <= gates[i].x_pos + gates[i].w)
+            if(y >= gates[i].y_pos && y <= gates[i].y_pos + gates[i].h){
+                return i;
+            }
+                
+    }
+    return -1;
+}
 
 
 
@@ -100,7 +109,15 @@ function And(x, y, win){
         //draw tiny circle
         
     }
-
+    this.update = function(cursorX, cursorY){
+        this.x_pos = cursorX;
+        this.y_pos = cursorY;
+        win.render();
+        gates.forEach(gate => {
+            gate.render();
+        });
+        
+    }
 
 }
 
@@ -129,6 +146,14 @@ function Or(x, y, win){
         
         //draw tiny circle
     }
+    this.update = function(x,y){
+        this.x_pos = x;
+        this.y_pos = y;
+        win.render();
+        gates.forEach(gate => {
+            gate.render();
+        });
+    }
 }
 
 function Not(x, y, win){
@@ -156,5 +181,12 @@ function Not(x, y, win){
         
         //draw tiny circle
     }
+    this.update = function(x,y){
+        this.x_pos = x;
+        this.y_pos = y;
+        win.render();
+        gates.forEach(gate => {
+            gate.render();
+        });
+    }
 }
-
