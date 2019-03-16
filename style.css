@@ -2,3 +2,26 @@ body{
     margin: 0;
     padding: 0;
 }
+
+button{
+    position: fixed;
+    width: 3%;
+    height: 4%;
+}
+
+#or{
+    top: 9%;
+    left: 2%;
+
+}
+
+#and{
+    top: 3%;
+    left: 2%;
+
+}
+
+#not{
+    top: 15%;
+    left: 2%;
+}
