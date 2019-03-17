@@ -4,9 +4,13 @@ var gate_index = -1;
 var mousedown = false;
 var win = new setUp();
 
+
 var orClick = document.getElementById("or");
 var andClick = document.getElementById("and");
 var notClick = document.getElementById("not");
+new And(0,0); //needed to load images ahead of clicking on them.
+new Or(0,0);
+new Not(0,0);
 win.render();
 
 
@@ -28,6 +32,13 @@ notClick.onclick = function(){
     gates.push(newNot);
     
 } 
+
+function handleMouseClick(e){
+    
+    // set output or input values for which gate. 
+    // draw line
+
+}
 
 function handleMouseDown(e){
     let cursorX = e.pageX;
@@ -51,12 +62,7 @@ function handleMouseMove(e){
 }
 
 function checkWhichGate(x, y){
-    console.log(x, y);
-    y = y-20;
-    console.log(x, y);
     for(let i = gates.length-1; i >= 0; i--){
-
-        
         if(x >= gates[i].x_pos && x <= gates[i].x_pos + gates[i].w)
             if(y >= gates[i].y_pos && y <= gates[i].y_pos + gates[i].h){
                 return i;
@@ -67,7 +73,6 @@ function checkWhichGate(x, y){
 }
 
 
-
 function setUp(){
     this.can = document.getElementById("canvas");
     this.ctx = this.can.getContext('2d');
@@ -76,47 +81,47 @@ function setUp(){
     this.ctx.canvas.addEventListener("mousedown", handleMouseDown);
     this.ctx.canvas.addEventListener("mouseup", handleMouseUp);
     this.ctx.canvas.addEventListener("mousemove", handleMouseMove);
+    this.ctx.canvas.addEventListener("click", handleMouseClick);
 
     this.render = function(){
         this.ctx.fillStyle = "antiquewhite";
         this.ctx.fillRect(0,0, this.ctx.canvas.width, this.ctx.canvas.height);
-        
     } 
 }
 
 function And(x, y, win){
     this.x_pos = x;
     this.y_pos = y;
-    this.w = win.ctx.canvas.width / 30;
-    this.h = win.ctx.canvas.height/ 10;
-    this.color = "green";
+    this.image = new Image();
+    this.image.src = 'images/and.png';
+    this.w = this.image.width;
+    this.h = this.image.height;
+    this.in1_pos = null;  //the position of the center of the circle for input 1
+    this.in2_pos = null;
+    this.out_pos = null;
     
     this.render = function(){
-        //draw square        
-        win.ctx.fillStyle = this.color;
-        win.ctx.fillRect(this.x_pos, this.y_pos, this.w, this.h);
-        //draw semi circle
-        win.ctx.beginPath();
-        win.ctx.arc(this.x_pos+this.w, this.y_pos+this.h/2, this.h/2, 0, 2 * Math.PI);
-        win.ctx.closePath();
-        win.ctx.fill();
-        
-        //draw input circles
+        // //draw input circles
+        win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
+        this.calcInPositions();
         win.ctx.fillStyle = "gray";
+        win.ctx.strokeStyle = "black";
         win.ctx.beginPath();
-        win.ctx.arc(this.x_pos, this.y_pos+this.h/4, this.h/10, 0, 2 * Math.PI);
+        win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
+        win.ctx.stroke();
         win.ctx.beginPath();
-        win.ctx.arc(this.x_pos, this.y_pos+(this.h/4 * 3), this.h/10, 0, 2 * Math.PI);
+        win.ctx.arc(this.in2_pos.x, this.in2_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
+        win.ctx.stroke();
         //draw output circle
         win.ctx.beginPath();
-        win.ctx.arc(this.x_pos+this.w+this.h/2, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
+        win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
-        
+        win.ctx.stroke();
     }
     this.update = function(cursorX, cursorY){
         this.x_pos = cursorX;
@@ -127,95 +132,136 @@ function And(x, y, win){
         });
         
     }
+    this.calcInPositions = function(){
+        this.in1_pos ={
+            x : this.x_pos,
+            y : this.y_pos+this.h/4
+        };
+        this.in2_pos ={
+            x : this.x_pos,
+            y : this.y_pos+(this.h/4)*3
+        };
+        this.out_pos={
+            x: this.x_pos+this.w,
+            y: this.y_pos+this.h/2
+        };
+    }
+    this.calcInPositions();
+
 
 }
 
 function Or(x, y, win){
     this.x_pos = x;
     this.y_pos = y;
-    this.w = win.ctx.canvas.width / 30;
-    this.h = win.ctx.canvas.height/ 10;
-    this.color = "blue";
+    this.image = new Image();
+    this.image.src = 'images/or.png';
+    this.w = this.image.width;
+    this.h = this.image.height;
+    this.in1_pos = null;  //the position of the center of the circle for input 1
+    this.in2_pos = null;
+    this.out_pos = null;
     
     this.render = function(){
-        //draw square        
-        win.ctx.fillStyle = this.color;
-        win.ctx.fillRect(this.x_pos, this.y_pos, this.w, this.h);
-        //draw triangle
-        win.ctx.strokeStyle = this.color;
-        win.ctx.beginPath();
-        win.ctx.moveTo(this.x_pos+this.w, this.y_pos);
-        win.ctx.lineTo((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2);
-        win.ctx.lineTo(this.x_pos+this.w, this.y_pos+this.h);
-        win.ctx.lineTo(this.x_pos+this.w, this.y_pos);
-        win.ctx.closePath();
-        win.ctx.fill();
-        //draw input circles
+        // //draw input circles
+        win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
+        this.calcInPositions();
         win.ctx.fillStyle = "gray";
+        win.ctx.strokeStyle ="black";
         win.ctx.beginPath();
-        win.ctx.arc(this.x_pos, this.y_pos+this.h/4, this.h/10, 0, 2 * Math.PI);
+        win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
+        win.ctx.stroke();
         win.ctx.beginPath();
-        win.ctx.arc(this.x_pos, this.y_pos+(this.h/4 * 3), this.h/10, 0, 2 * Math.PI);
+        win.ctx.arc(this.in2_pos.x, this.in2_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
+        win.ctx.stroke();
+
         //draw output circle
         win.ctx.beginPath();
-        win.ctx.arc((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
+        win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
-
+        win.ctx.stroke();
+   
     }
-    this.update = function(x,y){
-        this.x_pos = x;
-        this.y_pos = y;
+    this.update = function(cursorX, cursorY){
+        this.x_pos = cursorX;
+        this.y_pos = cursorY;
         win.render();
         gates.forEach(gate => {
             gate.render();
         });
+        
     }
+    this.calcInPositions = function(){
+        this.in1_pos ={
+            x : this.x_pos,
+            y : this.y_pos+this.h/4
+        };
+        this.in2_pos ={
+            x : this.x_pos,
+            y : this.y_pos+(this.h/4)*3
+        };
+        this.out_pos={
+            x: this.x_pos+this.w,
+            y: this.y_pos+this.h/2
+        };
+    }
+    this.calcInPositions();
+
 }
 
 function Not(x, y, win){
     this.x_pos = x;
     this.y_pos = y;
-    this.w = win.ctx.canvas.width / 50;
-    this.h = win.ctx.canvas.height/ 10;
-    this.color = "red";
-       
+    this.image = new Image();
+    this.image.src = 'images/not.png';
+    this.w = this.image.width;
+    this.h = this.image.height;
+    this.in1_pos = null;  //the position of the center of the circle for input 1
+    this.out_pos = null;
+    
     this.render = function(){
-        //draw triangle
-        win.ctx.strokeStyle = this.color;
-        win.ctx.fillStyle = this.color;
-        win.ctx.beginPath();
-        win.ctx.moveTo(this.x_pos, this.y_pos);
-        win.ctx.lineTo((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2);
-        win.ctx.lineTo(this.x_pos, this.y_pos+this.h);
-        win.ctx.lineTo(this.x_pos, this.y_pos);
-        win.ctx.closePath();
-        win.ctx.fill();
-        
-        //draw input circle
+        console.log(this.image.width);
+        // //draw input circles
+        win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
+        this.calcInPositions();
         win.ctx.fillStyle = "gray";
         win.ctx.beginPath();
-        win.ctx.arc(this.x_pos, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
+        win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/8, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
-
+        win.ctx.stroke();
         //draw output circle
         win.ctx.beginPath();
-        win.ctx.arc((this.w/2)+this.x_pos+this.w, this.y_pos+this.h/2, this.h/10, 0, 2 * Math.PI);
-        win.ctx.closePath();
+        win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/8, 0, 2 * Math.PI);
+        win.ctx.closePath();    
         win.ctx.fill();
+        win.ctx.stroke();
+            
     }
-
-    this.update = function(x,y){
-        this.x_pos = x;
-        this.y_pos = y;
+    this.update = function(cursorX, cursorY){
+        this.x_pos = cursorX;
+        this.y_pos = cursorY;
         win.render();
         gates.forEach(gate => {
             gate.render();
         });
+        
     }
+    this.calcInPositions = function(){
+        this.in1_pos ={
+            x : this.x_pos,
+            y : this.y_pos+this.h/2
+        };
+        this.out_pos={
+            x: this.x_pos+this.w,
+            y: this.y_pos+this.h/2
+        };
+    }
+    this.calcInPositions();
+
 }
