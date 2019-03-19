@@ -383,6 +383,8 @@ function Not(x, y, win, img){
     this.image = img;
     this.w = this.image.width;
     this.h = this.image.height;
+    this.in1 = null;
+    this.out = null;
     this.in1_pos = null;  //the position of the center of the circle for input 1
     this.out_pos = null;
     
