@@ -11,6 +11,8 @@ win.render();
 var andImg = new Image();
 var orImg = new Image();
 var notImg = new Image();
+var cursorX;
+var cursorX;
 andImg.src = "images/and.png";
 orImg.src = "images/or.png";
 notImg.src = "images/not.png";
@@ -79,8 +81,9 @@ function handleMouseClick(e){
 }
 
 function handleMouseDown(e){
-    let cursorX = e.pageX;
-    let cursorY = e.pageY;
+    cursorX = e.pageX;
+    cursorY = e.pageY;
+
     gate_index = checkWhichGate(cursorX, cursorY);  // ==> returns gate index
     mousedown = true;
 }
@@ -91,10 +94,15 @@ function handleMouseUp(e){
 }
 
 function handleMouseMove(e){
-    let cursorX = e.pageX;
-    let cursorY = e.pageY;
+    let X = e.pageX;
+    let Y = e.pageY;
     if(mousedown && gate_index != -1){
-        gates[gate_index].update(cursorX, cursorY);
+        let temp = gates[gate_index];
+        xdiff = cursorX - X;
+        ydiff = cursorY - Y
+        cursorX = X;
+        cursorY = Y;
+        temp.update(temp.x_pos-xdiff, temp.y_pos-ydiff);
     }
 }
 
