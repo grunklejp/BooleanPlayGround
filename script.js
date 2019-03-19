@@ -5,6 +5,7 @@ var mousedown = false;
 var InOutType = -1
 var OutFlag = false;
 var LastInputSelected = 0;
+var lastClicked = null;
 var win = new SetUp();
 win.render();
 var andImg = new Image();
@@ -61,13 +62,13 @@ function handleMouseClick(e){
             InOutType = 0;                      
         } else if(InOutType = 1){                   // last clicked was input
             if(LastInputSelected == 1){
-                lastClicked.in1 = SelectedGate;
+                lastClicked.in1 = SelectedGate[0];
             }else{
-                lastClicked.in2 = SelectedGate;
+                lastClicked.in2 = SelectedGate[0];
             }
             InOutType = -1;
+            lastClicked.render();
         }
-        
     }
 }
 
@@ -138,12 +139,10 @@ function checkInOutGate(x, y){
 
 function checkInside(cir_x, cir_y, r, x, y){
     // needs better circle function. currently checks if in square
-
     if (x < cir_x + r && x >cir_x - r && y < cir_y + r && y > cir_y - r)
         return true;
     return false;
 }
-
 
 function SetUp(){
     this.can = document.getElementById("canvas");
@@ -269,7 +268,6 @@ function And(x, y, win, img){
 }
 
 function Or(x, y, win, img){
-    this.type = "or";
     this.x_pos = x;
     this.y_pos = y;
     this.image = img;
