@@ -16,6 +16,7 @@ var cursorX;
 andImg.src = "images/and.png";
 orImg.src = "images/or.png";
 notImg.src = "images/not.png";
+setInterval(updateGates, 1000);
 
 var orClick = document.getElementById("or");
 var andClick = document.getElementById("and");
@@ -41,12 +42,29 @@ function handleMouseClick(e){
     let X = e.pageX;
     let Y = e.pageY;
     let SelectedGate = checkInOutGate(X, Y);
-    if (SelectedGate[0] == null)
+    if (SelectedGate == undefined || SelectedGate[0] == null )
         return;
     if (SelectedGate.length == 2){                  // input was selected
         if(InOutType == -1 || InOutType == 1){      // neither was looking for match  
+            if(lastClicked != null && lastClicked === SelectedGate[0]){
+
+                //check that sameinputs were cliked
+                if(LastInputSelected === SelectedGate[1])
+                    if(SelectedGate[1] === 1){
+                        if(lastClicked.in1 === null || lastClicked.in1.state === false)
+                            lastClicked.in1 = {state : true};
+                        else if (lastClicked.in1.state === true)
+                            lastClicked.in1 = {state : false};
+                    }else{
+                        if(lastClicked.in2 === null || lastClicked.in2.state === false)
+                            lastClicked.in2 = {state : true};
+                        else if (lastClicked.in2.state === true)
+                            lastClicked.in2 = {state : false};
+                    }
+            }
             lastClicked = SelectedGate[0];
             InOutType = 1;
+
                                   
         }else if(InOutType == 0){                   // last clicked was output -->connect in to outs
             if(SelectedGate[1] == 1){
@@ -55,11 +73,9 @@ function handleMouseClick(e){
                 SelectedGate[0].in2 = lastClicked;
             }
             InOutType = -1;
-            win.render();
-            gates.forEach(gate => {
-                gate.render();
-            });                        //resets so that neither were clicked
+                                   //resets so that neither were clicked
         }
+        updateGates(); 
         LastInputSelected = SelectedGate[1];
     }else{
         if(InOutType == -1 || InOutType == 0){      // neither was selected     
@@ -72,10 +88,7 @@ function handleMouseClick(e){
                 lastClicked.in2 = SelectedGate[0];
             }
             InOutType = -1;
-            win.render();
-            gates.forEach(gate => {
-                gate.render();
-            });
+            updateGates();
         }
     }
 }
@@ -105,6 +118,14 @@ function handleMouseMove(e){
         temp.update(temp.x_pos-xdiff, temp.y_pos-ydiff);
     }
 }
+
+function updateGates(){
+    win.render();
+    gates.forEach(gate => {
+        gate.render();
+    });
+}
+
 
 // checks which gates was clicked on
 function checkWhichGate(x, y){
@@ -183,17 +204,31 @@ function And(x, y, win, img){
     this.in1 = null;
     this.in2 = null;
     this.out = null;
-    this.state = false;
     this.in1_pos = null;  //the position of the center of the circle for input 1
     this.in2_pos = null;
     this.out_pos = null;
+    this.state = false;
+
+
+    this.checkState = function(){
+        let in1 = false;
+        let in2 = false;
+        if(this.in1 != null && this.in1.state == true)
+            in1 = true;
+        if(this.in2 != null && this.in2.state == true)
+            in2 = true;
+        this.state = in1 && in2;
+    }
     
     this.render = function(){
+        this.checkState();
         win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
         this.calcInPositions();
         win.ctx.lineWidth = 3;
         //draw lines
-        if(this.in1 != null){
+        if(this.in1 != null && this.in1.out_pos != null){
+            if(this.in1.state == true) win.ctx.strokeStyle = "red";
+            else win.ctx.strokeStyle = "black";
             win.ctx.beginPath();
             win.ctx.moveTo(this.in1_pos.x, this.in1_pos.y);
             win.ctx.lineTo(this.in1.out_pos.x, this.in1.out_pos.y);
@@ -201,28 +236,43 @@ function And(x, y, win, img){
             win.ctx.stroke();
             
         }
-        if(this.in2 != null){
+        if(this.in2 != null && this.in2.out_pos != null){
+            if(this.in2.state == true) win.ctx.strokeStyle = "red";
+            else win.ctx.strokeStyle = "black";
             win.ctx.beginPath();
             win.ctx.moveTo(this.in2_pos.x, this.in2_pos.y);
             win.ctx.lineTo(this.in2.out_pos.x, this.in2.out_pos.y);
             win.ctx.closePath();
             win.ctx.stroke();
-            
         }
         //draw input circles
+        win.ctx.strokeStyle = "black";
         win.ctx.fillStyle = "gray";
         win.ctx.lineWidth = 1;
+        if(this.in1 != null){
+            if(this.in1.state == true)
+                win.ctx.fillStyle = "red";
+        }
         win.ctx.beginPath();
         win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
         win.ctx.stroke();
+        win.ctx.fillStyle = "gray";
+        if(this.in2 != null){
+            if(this.in2.state == true)
+                win.ctx.fillStyle = "red";
+        }
         win.ctx.beginPath();
         win.ctx.arc(this.in2_pos.x, this.in2_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
         win.ctx.stroke();
+        win.ctx.fillStyle = "gray";
         //draw output circle
+        if(this.state == true){
+            win.ctx.fillStyle = "red";
+        }
         win.ctx.beginPath();
         win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
@@ -239,30 +289,7 @@ function And(x, y, win, img){
         });
         
     }
-    this.renderSelection = function(num){
-        if (num == 1){
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        }else if(num == 2){
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.in2_pos.x, this.in2_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        } else{
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        }
-    }
+    
     this.calcInPositions = function(){
         this.in1_pos ={
             x : this.x_pos,
@@ -279,7 +306,6 @@ function And(x, y, win, img){
     }
     this.calcInPositions();
 
-
 }
 
 function Or(x, y, win, img){
@@ -294,13 +320,27 @@ function Or(x, y, win, img){
     this.in1 = null;
     this.in2 = null;
     this.out = null;
+    this.state = false;
+
+    this.checkState = function(){
+        let in1 = false;
+        let in2 = false;
+        if(this.in1 != null && this.in1.state == true)
+            in1 = true;
+        if(this.in2 != null && this.in2.state == true)
+            in2 = true;
+        this.state = in1 || in2;
+    }
 
     this.render = function(){
+        this.checkState();
         win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
         this.calcInPositions();
         win.ctx.lineWidth = 3;
         //draw input --> output lines
-        if(this.in1 != null){
+        if(this.in1 != null && this.in1.out_pos != null){
+            if(this.in1.state == true) win.ctx.strokeStyle = "red";
+            else win.ctx.strokeStyle = "black";
             win.ctx.beginPath();
             win.ctx.moveTo(this.in1_pos.x, this.in1_pos.y);
             win.ctx.lineTo(this.in1.out_pos.x, this.in1.out_pos.y);
@@ -308,7 +348,9 @@ function Or(x, y, win, img){
             win.ctx.stroke();
             
         }
-        if(this.in2 != null){
+        if(this.in2 != null && this.in2.out_pos != null){
+            if(this.in2.state == true) win.ctx.strokeStyle = "red";
+            else win.ctx.strokeStyle = "black";
             win.ctx.beginPath();
             win.ctx.moveTo(this.in2_pos.x, this.in2_pos.y);
             win.ctx.lineTo(this.in2.out_pos.x, this.in2.out_pos.y);
@@ -317,19 +359,34 @@ function Or(x, y, win, img){
             
         }
         //draw input circles
+        win.ctx.strokeStyle = "black";
         win.ctx.fillStyle = "gray";
         win.ctx.lineWidth = 1;
+        if(this.in1 != null){
+            if(this.in1.state == true)
+                win.ctx.fillStyle = "red";
+        }
         win.ctx.beginPath();
         win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
         win.ctx.stroke();
+        win.ctx.fillStyle = "gray";
+        if(this.in2 != null){
+            if(this.in2.state == true)
+                win.ctx.fillStyle = "red";
+        }
         win.ctx.beginPath();
         win.ctx.arc(this.in2_pos.x, this.in2_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
         win.ctx.stroke();
+        win.ctx.fillStyle = "gray";
+
         //draw output circle
+        
+        if(this.state == true)
+            win.ctx.fillStyle = "red";
         win.ctx.beginPath();
         win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
@@ -346,30 +403,7 @@ function Or(x, y, win, img){
         });
         
     }
-    this.renderSelection = function(num){
-        if (num == 1){
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        }else if(num == 2){
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.in2_pos.x, this.in2_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        } else{
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        }
-    }
+
     this.calcInPositions = function(){
         this.in1_pos ={
             x : this.x_pos,
@@ -401,13 +435,25 @@ function Not(x, y, win, img){
     this.out = null;
     this.in1_pos = null;  //the position of the center of the circle for input 1
     this.out_pos = null;
+    this.state = true;
+
+    this.checkState = function(){
+        let in1 = false;
+        if(this.in1 != null && this.in1.state == true)
+            in1 = true;
+
+        this.state = !in1;
+    }
     
     this.render = function(){
+        this.checkState();
         win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
         this.calcInPositions();
         win.ctx.lineWidth = 3;
         //draw lines
-        if(this.in1 != null){
+        if(this.in1 != null && this.in1.out_pos != null){
+            if(this.in1.state == true) win.ctx.strokeStyle = "red";
+            else win.ctx.strokeStyle = "black";
             win.ctx.beginPath();
             win.ctx.moveTo(this.in1_pos.x, this.in1_pos.y);
             win.ctx.lineTo(this.in1.out_pos.x, this.in1.out_pos.y);
@@ -417,46 +463,36 @@ function Not(x, y, win, img){
         }
 
         //draw input circles
+        win.ctx.strokeStyle = "black";
         win.ctx.lineWidth = 1;
         win.ctx.fillStyle = "gray";
+        if(this.in1 != null){
+            if(this.in1.state == true)
+                win.ctx.fillStyle = "red";
+        }
         win.ctx.beginPath();
         win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/8, 0, 2 * Math.PI);
         win.ctx.closePath();
         win.ctx.fill();
         win.ctx.stroke();
+        win.ctx.fillStyle = "gray";
         //draw output circle
+        if(this.state == true)
+            win.ctx.fillStyle = "red";
         win.ctx.beginPath();
         win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/8, 0, 2 * Math.PI);
         win.ctx.closePath();    
         win.ctx.fill();
         win.ctx.stroke();
-     
     }
-    this.renderSelection = function(num){
-        if (num == 1){
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        }else {
-            win.ctx.fillStyle = "lightgray";
-            win.ctx.beginPath();
-            win.ctx.arc(this.out_pos.x, this.out_pos.y, this.h/8, 0, 2 * Math.PI);
-            win.ctx.closePath();
-            win.ctx.fill();
-            win.ctx.stroke();
-        }
-    }
+    
     this.update = function(cursorX, cursorY){
         this.x_pos = cursorX;
         this.y_pos = cursorY;
         win.render();
         gates.forEach(gate => {
             gate.render();
-        });
-        
+        }); 
     }
     this.calcInPositions = function(){
         this.in1_pos ={
