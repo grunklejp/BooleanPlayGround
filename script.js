@@ -378,7 +378,6 @@ function Or(x, y, win, img){
 }
 
 function Not(x, y, win, img){
-    this.type = "not";
     this.x_pos = x;
     this.y_pos = y;
     this.image = img;
