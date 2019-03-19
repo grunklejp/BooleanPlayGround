@@ -6,35 +6,32 @@ var InOutType = -1
 var OutFlag = false;
 var LastInputSelected = 0;
 var win = new SetUp();
-
-
+win.render();
+var andImg = new Image();
+var orImg = new Image();
+var notImg = new Image();
+andImg.src = "images/and.png";
+orImg.src = "images/or.png";
+notImg.src = "images/not.png";
 
 var orClick = document.getElementById("or");
 var andClick = document.getElementById("and");
 var notClick = document.getElementById("not");
-new And(0,0); //needed to load images ahead of clicking on them.
-new Or(0,0);
-new Not(0,0);
-win.render();
 
 orClick.onclick = function(){
-    var newOr = new Or(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win);
+    var newOr = new Or(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win, orImg);
     newOr.render();
-    gates.push(newOr);
-    
+    gates.push(newOr);  
 } 
 andClick.onclick = function(){
-    var newAnd = new And(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win);
+    var newAnd = new And(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win, andImg);
     newAnd.render();
-    gates.push(newAnd);
-    
+    gates.push(newAnd);  
 }
 notClick.onclick = function(){
-    var newNot = new Not(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win);
+    var newNot = new Not(win.ctx.canvas.width/2-50, win.ctx.canvas.height/10, win, notImg);
     newNot.render();
-    gates.push(newNot);
-    
-    
+    gates.push(newNot); 
 }
 
 function handleMouseClick(e){
@@ -164,11 +161,10 @@ function SetUp(){
     } 
 }
 
-function And(x, y, win){
+function And(x, y, win, img){
     this.x_pos = x;
     this.y_pos = y;
-    this.image = new Image();
-    this.image.src = 'images/and.png';
+    this.image = img;
     this.w = this.image.width;
     this.h = this.image.height;
     this.in1 = null;
@@ -272,12 +268,11 @@ function And(x, y, win){
 
 }
 
-function Or(x, y, win){
+function Or(x, y, win, img){
     this.type = "or";
     this.x_pos = x;
     this.y_pos = y;
-    this.image = new Image();
-    this.image.src = 'images/or.png';
+    this.image = img;
     this.w = this.image.width;
     this.h = this.image.height;
     this.in1_pos = null;  //the position of the center of the circle for input 1
@@ -382,12 +377,11 @@ function Or(x, y, win){
 
 }
 
-function Not(x, y, win){
+function Not(x, y, win, img){
     this.type = "not";
     this.x_pos = x;
     this.y_pos = y;
-    this.image = new Image();
-    this.image.src = 'images/not.png';
+    this.image = img;
     this.w = this.image.width;
     this.h = this.image.height;
     this.in1_pos = null;  //the position of the center of the circle for input 1
