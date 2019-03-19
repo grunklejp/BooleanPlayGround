@@ -11,6 +11,6 @@ https://johnpaulkiser.github.io/BooleanPlayGround/main.html
 
 #### TODO ###
 
-1. get to the bottom of first spawn bug.
+1. get to the bottom of first spawn bug. --Fixed I believe
 2. main conditional logic
 
