@@ -53,7 +53,10 @@ function handleMouseClick(e){
                 SelectedGate[0].in2 = lastClicked;
             }
             InOutType = -1;
-            SelectedGate[0].render();                         //resets so that neither were clicked
+            win.render();
+            gates.forEach(gate => {
+                gate.render();
+            });                        //resets so that neither were clicked
         }
         LastInputSelected = SelectedGate[1];
     }else{
@@ -67,7 +70,10 @@ function handleMouseClick(e){
                 lastClicked.in2 = SelectedGate[0];
             }
             InOutType = -1;
-            lastClicked.render();
+            win.render();
+            gates.forEach(gate => {
+                gate.render();
+            });
         }
     }
 }
@@ -177,6 +183,7 @@ function And(x, y, win, img){
     this.render = function(){
         win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
         this.calcInPositions();
+        win.ctx.lineWidth = 3;
         //draw lines
         if(this.in1 != null){
             win.ctx.beginPath();
@@ -196,7 +203,7 @@ function And(x, y, win, img){
         }
         //draw input circles
         win.ctx.fillStyle = "gray";
-        win.ctx.strokeStyle = "black";
+        win.ctx.lineWidth = 1;
         win.ctx.beginPath();
         win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
@@ -283,6 +290,7 @@ function Or(x, y, win, img){
     this.render = function(){
         win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
         this.calcInPositions();
+        win.ctx.lineWidth = 3;
         //draw input --> output lines
         if(this.in1 != null){
             win.ctx.beginPath();
@@ -302,7 +310,7 @@ function Or(x, y, win, img){
         }
         //draw input circles
         win.ctx.fillStyle = "gray";
-        win.ctx.strokeStyle ="black";
+        win.ctx.lineWidth = 1;
         win.ctx.beginPath();
         win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/10, 0, 2 * Math.PI);
         win.ctx.closePath();
@@ -389,6 +397,7 @@ function Not(x, y, win, img){
     this.render = function(){
         win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
         this.calcInPositions();
+        win.ctx.lineWidth = 3;
         //draw lines
         if(this.in1 != null){
             win.ctx.beginPath();
@@ -400,6 +409,7 @@ function Not(x, y, win, img){
         }
 
         //draw input circles
+        win.ctx.lineWidth = 1;
         win.ctx.fillStyle = "gray";
         win.ctx.beginPath();
         win.ctx.arc(this.in1_pos.x, this.in1_pos.y, this.h/8, 0, 2 * Math.PI);
