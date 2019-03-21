@@ -14,4 +14,5 @@ https://johnpaulkiser.github.io/BooleanPlayGround/main.html
 1. Drag and Drop to delete feature.
 2. Add power source switch and display bulbs widgets
 3. multi select dragging
+4. Add Labeling feature so users can place comments on specific gates 
 
