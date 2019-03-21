@@ -16,7 +16,7 @@ var cursorX;
 andImg.src = "images/and.png";
 orImg.src = "images/or.png";
 notImg.src = "images/not.png";
-setInterval(updateGates, 1000);
+setInterval(updateGates, 500);
 
 var orClick = document.getElementById("or");
 var andClick = document.getElementById("and");
@@ -507,4 +507,3 @@ function Not(x, y, win, img){
     this.calcInPositions();
 
 }
-
