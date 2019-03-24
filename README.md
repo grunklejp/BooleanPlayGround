@@ -6,7 +6,7 @@ https://rogerdudler.github.io/git-guide/
 
 View Live Project Here!
 
-https://johnpaulkiser.github.io/BooleanPlayGround/main.html
+https://johnpaulkiser.github.io/BooleanPlayGround/index.html
 
 
 #### TODO ###
