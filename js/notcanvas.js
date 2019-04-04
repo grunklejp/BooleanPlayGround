@@ -22,3 +22,7 @@ notClick.onclick = function(){
     newNot.render();
     gates.push(newNot); 
 }
+
+function hidePopUp() {
+    document.getElementById('popUp').className = 'popUpClass2';
+}

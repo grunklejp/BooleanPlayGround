@@ -1,27 +1,137 @@
-body{
-    margin: 0;
-    padding: 0;
+
+@import url('https://fonts.googleapis.com/css?family=Righteous');
+
+body {
+    margin:0;
 }
 
-button{
-    position: fixed;
-    width: 3%;
-    height: 4%;
+#popUp {
+    position:absolute;
+    display:table;
+    left:20vw;
+    height:20vh;
+    width:60vw;
+    background-color:#33f;
+    border:1px solid #333;
+    border-bottom:3px solid #333;
+    border-right:3px solid #333;
+    border-radius:2vh;
+    text-align:center;
+    /*transition:.25s transform ease;*/
 }
 
-#or{
-    top: 9%;
-    left: 2%;
-
+.popUpClass1 {
+    top:5vh;
+    animation:showPopUp; 
+    animation-duration:1s;
 }
 
-#and{
-    top: 3%;
-    left: 2%;
-
+.popUpClass2 {
+    top:-21vh;
+    animation:hidePopUp;
+    animation-duration:1s;
 }
 
-#not{
-    top: 15%;
-    left: 2%;
+#popUp:hover {
+    /*transform:scale(1.2);*/
+}
+
+#exit {
+    position:absolute;
+    top:1%;
+    right:1%;
+    height:2vh;
+    width:2vh;
+    border:1px solid #333;
+    background-color:#aaa;
+    border-radius:100%;
+    transition:.25s background-color ease;
+}
+
+#exit:hover {
+    background-color:#f22;
+}
+
+#title {
+    display:table-cell;
+    vertical-align:middle;
+    animation:animateTitle;
+    animation-duration:2s;
+    animation-iteration-count:infinite;
+}
+
+#b, #o1, #o2, #l, #e, #a, #n, #p, #l2, #a2, #y,
+#g, #r, #o3, #u, #n2, #d {
+    font-family:'Righteous';
+    font-size:10vh;
+}
+
+#and {
+    position:absolute;
+    left:1vw;
+    width:5vw;
+    top:5vh;
+    font-family:'Righteous';
+    font-size:3vh;
+}
+
+#or {
+    position:absolute;
+    left:1vw;
+    width:5vw;
+    top:11vh;
+    font-family:'Righteous';
+    font-size:3vh;
+}
+
+#not {
+    position:absolute;
+    left:1vw;
+    width:5vw;
+    top:17vh;
+    font-family:'Righteous';
+    font-size:3vh;
+}
+
+#help {
+    position:absolute;
+    top:22vh;
+    left:1vw;
+    font-family:'Righteous';
+    font-size:5vh;
+    color:#18B62D;
+    background-color:#ffb266;
+    border:0;
+}
+
+#canvas {
+    width:100vw;
+    height:100vh;
+    background-color:#ffb266;
+}
+
+@keyframes showPopUp {
+    0% {
+        transform:translateY(-26vh);
+    }
+    
+    75% {
+        transform:translateY(2vh);
+    }
+}
+
+@keyframes hidePopUp {
+    0% {
+        transform:translateY(26vh);
+    }
+
+    75% {
+        transform:translateY(28vh);
+    }
+}
+
+@keyframes animateTitle {
+    50% {
+        color:#333;
+    }
 }
