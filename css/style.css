@@ -23,13 +23,13 @@ body {
 .popUpClass1 {
     top:5vh;
     animation:showPopUp; 
-    animation-duration:1s;
+    animation-duration:0.5s;
 }
 
 .popUpClass2 {
     top:-21vh;
     animation:hidePopUp;
-    animation-duration:1s;
+    animation-duration:0.5s;
 }
 
 #popUp:hover {
@@ -132,6 +132,6 @@ body {
 
 @keyframes animateTitle {
     50% {
-        color:#333;
+        color:rgb(45, 40, 40);
     }
 }
