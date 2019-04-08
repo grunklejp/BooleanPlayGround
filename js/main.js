@@ -14,9 +14,9 @@
     var notImg = new Image();
     var cursorX;
     var cursorX;
-    andImg.src = "images/and.png";
-    orImg.src = "images/or.png";
-    notImg.src = "images/not.png";
+    andImg.src = "images/and_stylized.png";
+    orImg.src = "images/or_stylized.png";
+    notImg.src = "images/not_stylized.png";
     setInterval(updateGates, 500);
 
 
