@@ -2,9 +2,9 @@
 
 function updateGates(){
     win.render();
-    gates.forEach(gate => {
-        gate.render();
-    });
+    for(let i = 0; i < gates.length; i++){
+        gates[i].render();
+    }
 }
 
 // checks which gates was clicked on
@@ -26,6 +26,12 @@ function checkInOutGate(x, y){
 
     let inIndex = checkWhichGate(x + gates[0].h/10, y);
     let outIndex = checkWhichGate(x - gates[0].h/10, y);
+    console.log()
+
+    //dot was clicked 
+    if(inIndex != -1  && gates[inIndex].type === "dot"){
+        console.log("dot clicked");
+    }
 
     if (outIndex != -1){
         let gate = gates[outIndex];

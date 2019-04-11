@@ -66,6 +66,11 @@ function handleMouseDown(e){
 }
 
 function handleMouseUp(e){
+    if (gates[gate_index].x_pos < trash.x && gates[gate_index].y_pos > trash.y){
+        //if(gates[gate_index].out != null )
+        gates.splice(gate_index, 1);
+        
+    }
     mousedown = false;
     gate_index = -1;
 }

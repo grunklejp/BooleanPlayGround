@@ -93,9 +93,36 @@ body {
     font-size:3vh;
 }
 
+#nor {
+    position:absolute;
+    left:1vw;
+    width:5vw;
+    top:23vh;
+    font-family:'Righteous';
+    font-size:3vh;
+}
+
+#nand {
+    position:absolute;
+    left:1vw;
+    width:5vw;
+    top:29vh;
+    font-family:'Righteous';
+    font-size:3vh;
+}
+
+#xor {
+    position:absolute;
+    left:1vw;
+    width:5vw;
+    top:35vh;
+    font-family:'Righteous';
+    font-size:3vh;
+}
+
 #help {
     position:absolute;
-    top:22vh;
+    top:39vh;
     left:1vw;
     font-family:'Righteous';
     font-size:5vh;
