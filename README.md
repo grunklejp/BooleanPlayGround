@@ -11,8 +11,8 @@ https://johnpaulkiser.github.io/BooleanPlayGround/index.html
 
 #### TODO ###
 
-1. Drag and Drop to delete feature.
-2. Add power source switch and display bulbs widgets
-3. multi select dragging
-4. Add Labeling feature so users can place comments on specific gates 
+1. Add tutorial slider
+2. make Nor, Nand, Xor gates
+
+
 
