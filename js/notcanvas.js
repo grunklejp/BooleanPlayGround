@@ -45,3 +45,11 @@ xorClick.onclick = function(){
 function hidePopUp() {
     document.getElementById('popUp').className = 'popUpClass2';
 }
+
+function showTutorial() {
+    document.getElementById('tutorial').className = 'tutorialClass2';
+}
+
+function hideTutorial() {
+    document.getElementById('tutorial').className = 'tutorialClass3';
+}

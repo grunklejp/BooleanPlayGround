@@ -1,5 +1,6 @@
 
 @import url('https://fonts.googleapis.com/css?family=Righteous');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 body {
     margin:0;
@@ -64,6 +65,62 @@ body {
 #g, #r, #o3, #u, #n2, #d {
     font-family:'Righteous';
     font-size:10vh;
+}
+
+#tutorial {
+    position:absolute;
+    z-index: 1;
+    top:5vh;
+    font-family:'Roboto';
+    font-size:3vh;
+    word-wrap: normal;
+    overflow: auto;
+    height:90vh;
+    width:90vw;
+    border:1px solid #333;
+    border-bottom:3px solid #333;
+    border-right:3px solid #333;
+    border-radius:2vh 0vh 0vh 2vh;
+    background-color:#f5f5dc;
+}
+
+.tutorialClass1 {
+    right:105vw;
+}
+
+.tutorialClass2 {
+    right:5vw;
+    animation:showTutorial;
+    animation-duration:1s;
+}
+
+.tutorialClass3 {
+    right:105vw;
+    animation:hideTutorial;
+    animation-duration:1s;
+}
+
+#tutorialExit {
+    position:absolute;
+    top:1%;
+    right:1%;
+    height:2vh;
+    width:2vh;
+    border:1px solid #333;
+    background-color:#aaa;
+    border-radius:100%;
+    transition:.25s background-color ease;
+}
+
+#tutorialExit:hover {
+    background-color:#f22;
+}
+
+#description {
+    margin-top:5vh;
+    margin-bottom:5vh;
+    margin-left:2vw;
+    margin-right:2vw;
 }
 
 #and {
@@ -160,5 +217,25 @@ body {
 @keyframes animateTitle {
     50% {
         color:rgb(45, 40, 40);
+    }
+}
+
+@keyframes showTutorial {
+    0% {
+        transform:translateX(-100vw);
+    }
+
+    75% {
+        transform:translateX(2vw);
+    }    
+}
+
+@keyframes hideTutorial {
+    0% {
+        transform:translateX(100vw);
+    }
+
+    75% {
+        transform:translateX(102vw);
     }
 }
