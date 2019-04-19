@@ -12,17 +12,23 @@ win.render();
 var andImg = new Image();
 var orImg = new Image();
 var notImg = new Image();
-var dotImg = new Image();
+var norImg = new Image();
+var nandImg = new Image();
+var xorImg = new Image();
 var cursorX;
 var cursorX;
-andImg.src = "images/and_stylized.png";
-orImg.src = "images/or_stylized_revised.png";
-notImg.src = "images/not_stylized.png";
-dotImg.src = "images/not.png";
+andImg.src = "images/gates/and_labeled.png";
+orImg.src = "images/gates/or_labeled.png";
+notImg.src = "images/gates/not_stylized.png";
+norImg.src = "images/gates/nor.png";
+xorImg.src = "images/gates/xor.png";
+nandImg.src = "images/gates/nand.png";
+
+
 
 var trash = {
-    x : window.innerWidth / 10,
-    y : window.innerHeight - window.innerHeight /9
+    x: window.innerWidth / 10,
+    y: window.innerHeight - window.innerHeight / 9
 };
 
 setInterval(updateGates, 500);

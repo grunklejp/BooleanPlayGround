@@ -11,7 +11,7 @@ class Frame {
         this.ctx.canvas.addEventListener("mouseup", handleMouseUp); //   Drag &
         this.ctx.canvas.addEventListener("mousemove", handleMouseMove); //   Drop
         this.ctx.canvas.addEventListener("click", handleMouseClick); // Handles linking gates
-        
+
     }
     render() {
         this.ctx.fillStyle = "antiquewhite";
@@ -36,7 +36,7 @@ class And {
         this.calcInPositions();
 
     }
-    checkState(){
+    checkState() {
         let in1 = false;
         let in2 = false;
         if (this.in1 != null && this.in1.state == true)
@@ -256,7 +256,7 @@ class Not {
         this.out_pos = null;
         this.state = true;
         this.calcInPositions();
-        
+
     }
     checkState() {
         let in1 = false;
@@ -264,7 +264,8 @@ class Not {
             in1 = true;
         this.state = !in1;
     }
-    render(){
+    render() {
+
         this.checkState();
         win.ctx.drawImage(this.image, this.x_pos, this.y_pos);
         this.calcInPositions();
@@ -305,12 +306,12 @@ class Not {
         win.ctx.stroke();
     }
 
-    update(cursorX, cursorY){
+    update(cursorX, cursorY) {
         this.x_pos = cursorX;
         this.y_pos = cursorY;
         updateGates();
     }
-    
+
 
     calcInPositions() {
         this.in1_pos = {
@@ -453,7 +454,7 @@ class Nand {
         this.calcInPositions();
 
     }
-    checkState(){
+    checkState() {
         let in1 = false;
         let in2 = false;
         if (this.in1 != null && this.in1.state == true)
