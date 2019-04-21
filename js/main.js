@@ -1,5 +1,5 @@
 /* this files defines global variables and starts program execution */
-
+/*
 var gates = []
 var gate_index = -1;
 var mousedown = false;
@@ -33,3 +33,4 @@ var trash = {
 
 setInterval(updateGates, 500);
 
+*/

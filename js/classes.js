@@ -227,7 +227,7 @@ class Or {
         updateGates();
     }
 
-    calcInPositions = function () {
+    calcInPositions() {
         this.in1_pos = {
             x: this.x_pos,
             y: this.y_pos + this.h / 4,
@@ -421,7 +421,7 @@ class Nor {
         updateGates();
     }
 
-    calcInPositions = function () {
+    calcInPositions() {
         this.in1_pos = {
             x: this.x_pos,
             y: this.y_pos + this.h / 4,
@@ -642,7 +642,7 @@ class Xor {
         updateGates();
     }
 
-    calcInPositions = function () {
+    calcInPositions() {
         this.in1_pos = {
             x: this.x_pos,
             y: this.y_pos + this.h / 4,

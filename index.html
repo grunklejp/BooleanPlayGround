@@ -1,20 +1,10 @@
-<canvas id='canvas'></canvas>
-<button id='help' onclick='showTutorial()'>?</button>
-<button id='and'>AND</button>
-<button id='or'>OR</button>
-<button id='not'>NOT</button>
-<button id='nor'>NOR</button>
-<button id='nand'>NAND</button>
-<button id='xor'>XOR</button>
-
-
+<!DOCTYPE html>
 <html>
 
 <head>
     <title>BooleanPlayGround</title>
-
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel='stylesheet' type='text/css' href='css/style.css'>
-    <link rel="icon" href="favicon.ico" type="image/x-icon">
     <script src="https://use.fontawesome.com/d77650fddb.js"></script>
     <script language='javascript' src='js/classes.js'></script>
     <script language='javascript' src='js/listeners.js'></script>
@@ -24,6 +14,17 @@
 </head>
 
 <body>
+    <canvas id='canvas'></canvas>
+    <button id='help' onclick='showTutorial()'>?</button>
+    <button id='and'>AND</button>
+    <button id='or'>OR</button>
+    <button id='not'>NOT</button>
+    <button id='nor'>NOR</button>
+    <button id='nand'>NAND</button>
+    <button id='xor'>XOR</button>
+    <i id="trash" class="fa fa-trash-o" aria-hidden="true"></i>
+
+
     <div id='popUp' class='popUpClass1'>
         <button id='exit' onclick='hidePopUp()'></button>
         <div id='title'>
@@ -39,7 +40,7 @@
             <span id='l2'>l</span>
             <span id='a2'>a</span>
             <span id='y'>y</span>
-            <span id='G'>G</span>
+            <span id='g'>G</span>
             <span id='r'>r</span>
             <span id='o3'>o</span>
             <span id='u'>u</span>
@@ -47,6 +48,7 @@
             <span id='d'>d</span>
         </div>
     </div>
+
     <div id='tutorial' class='tutorialClass1'>
         <div id='description'>
             <button id='tutorialExit' onclick='hideTutorial()'></button>
@@ -75,7 +77,42 @@
             would be Ā. If the output of A is 1 then the output of Ā would be 0.
         </div>
     </div>
-    <i style="position: absolute; bottom:25; left:30; font-size: 45px;" class="fa fa-trash-o" aria-hidden="true"></i>
+
+    <script>
+        var gates = []
+        var gate_index = -1;
+        var mousedown = false;
+        var InOutType = -1
+        var OutFlag = false;
+        var LastInputSelected = 0;
+        var lastClicked = null;
+        var win = new Frame();
+        win.render();
+        var andImg = new Image();
+        var orImg = new Image();
+        var notImg = new Image();
+        var norImg = new Image();
+        var nandImg = new Image();
+        var xorImg = new Image();
+        var cursorX;
+        var cursorX;
+        andImg.src = "images/gates_final/and.png";
+        orImg.src = "images/gates_final/or.png";
+        notImg.src = "images/gates_final/not.png";
+        norImg.src = "images/gates_final/nor.png";
+        xorImg.src = "images/gates_final/xor.png";
+        nandImg.src = "images/gates_final/nand.png";
+
+
+
+        var trash = {
+            x: window.innerWidth / 11,
+            y: window.innerHeight - window.innerHeight / 9
+        };
+
+        setInterval(updateGates, 400);
+
+    </script>
 </body>
 
 </html>
