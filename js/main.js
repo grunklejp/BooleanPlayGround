@@ -17,12 +17,12 @@ var nandImg = new Image();
 var xorImg = new Image();
 var cursorX;
 var cursorX;
-andImg.src = "images/gates/and_labeled.png";
-orImg.src = "images/gates/newnew_or.png";
-notImg.src = "images/gates/not_stylized.png";
-norImg.src = "images/gates/nor.png";
-xorImg.src = "images/gates/xor.png";
-nandImg.src = "images/gates/nand.png";
+andImg.src = "images/gates_final/and.png";
+orImg.src = "images/gates_final/or.png";
+notImg.src = "images/gates_final/not.png";
+norImg.src = "images/gates_final/nor.png";
+xorImg.src = "images/gates_final/xor.png";
+nandImg.src = "images/gates_final/nand.png";
 
 
 
