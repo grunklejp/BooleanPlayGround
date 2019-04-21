@@ -18,7 +18,7 @@ var xorImg = new Image();
 var cursorX;
 var cursorX;
 andImg.src = "images/gates/and_labeled.png";
-orImg.src = "images/gates/or_labeled.png";
+orImg.src = "images/gates/newnew_or.png";
 notImg.src = "images/gates/not_stylized.png";
 norImg.src = "images/gates/nor.png";
 xorImg.src = "images/gates/xor.png";
