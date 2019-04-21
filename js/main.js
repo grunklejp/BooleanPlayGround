@@ -27,7 +27,7 @@ nandImg.src = "images/gates_final/nand.png";
 
 
 var trash = {
-    x: window.innerWidth / 10,
+    x: window.innerWidth / 11,
     y: window.innerHeight - window.innerHeight / 9
 };
 
